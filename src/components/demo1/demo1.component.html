@@ -1,0 +1,53 @@
+<!-- <div class="container">
+  <div class="logo navbar-font col-sm-12">
+    Enter City, Country code : <input type="text" id="text1" name="city-name" class="form-control"
+      placeholder="e.g. London,uk" [(ngModel)]="searchedCity" (change)="onInputChange()" required>
+  </div>
+  <button mdbBtn type="button" (click)="fetchData()" gradient="peach" rounded="true" class="btn"
+    mdbWavesEffect>Fetch</button>
+  
+</div> -->
+
+<div class="col-xs-6">
+  <mat-form-field style="width:100%">
+    <input
+      matInput
+      placeholder="Begin typing a city name"
+      aria-label="City"
+      [formControl]="cityControl"
+      [matAutocomplete]="autoCity"
+      [value]="cityControl.value">
+
+    <mat-autocomplete
+      #autoCity="matAutocomplete"
+      (optionSelected)="onCitySelected($event.option.value)"
+      >
+      <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+        {{getCityDisplayName(city)}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+<div *ngIf="selectedCity != null" class="cols-xs-6">
+  <div class="result-container col-xs-6">
+    
+    <table width="100%">
+      <tr>
+        <th>ID</th>
+        <th>Location (lat, long)</th>
+        <th>Population</th>
+        <th>Elevation (meters)</th>
+        <th>Weather Main</th>
+        <th>Weather Description</th>
+      </tr>
+      <tr>
+        <td>{{selectedCity.id}}</td>
+        <td>{{selectedCity.latitude}}, {{selectedCity.longitude}}</td>
+        <td>{{selectedCity.population}}</td>
+        <td>{{selectedCity.elevationMeters ? selectedCity.elevationMeters : 'N/A'}}</td>
+        <td>{{weatherResponse?.weather[0]?.main}}</td>
+        <td>{{weatherResponse?.weather[0]?.description}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
